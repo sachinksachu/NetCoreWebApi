@@ -7,7 +7,7 @@ namespace NetCoreWebApi.Platform.Services.Extensions;
 
 public static class ServiceExtensionHandler
 {
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection AddCustomServices(this IServiceCollection services)
     {
         services.AddScoped<ITodoService, TodoService>();
         return services;

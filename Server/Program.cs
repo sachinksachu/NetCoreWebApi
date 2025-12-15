@@ -1,9 +1,15 @@
 using NetCoreWebApi.Platform.Services.Extensions;
+using NetCoreWebApi.Server.Extrensions;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCustomConfigurations(builder.Configuration);
+
 builder.Services.AddControllers();// enable controllers
-// Add services to the container
-builder.Services.AddServices();
+
+// Register services to the container
+builder.Services.AddCustomServices();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
