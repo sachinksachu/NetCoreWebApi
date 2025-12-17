@@ -1,11 +1,12 @@
-﻿namespace NetCoreWebApi.Server.Configurations
+﻿namespace NetCoreWebApi.Platform.Models.Configurations
 {
     public class DatabaseConfig
     {
-        public readonly string ConnectionString = "Server=devserver;Database=DevDB;User Id=devuser;Password=devpassword;";
-        public readonly string Provider = "SqlServer";
-        public readonly bool EnableSensitiveDataLogging = true;
-        public readonly int CommandTimeout = 60;
-        public readonly int MaxRetryCount = 5;
+        public string ConnectionString { get; set; } = string.Empty;
+        public string Provider { get; set; } = string.Empty;
+        public bool EnableSensitiveDataLogging { get; set; }
+        public int CommandTimeout { get; set; }
+        public int MaxRetryCount { get; set; }
     }
+
 }

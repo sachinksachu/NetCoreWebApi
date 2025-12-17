@@ -1,7 +1,7 @@
 using NetCoreWebApi.Platform.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using NetCoreWebApi.Platform.Models.Response;
-using NetCoreWebApi.Server.Configurations;
+using NetCoreWebApi.Platform.Models.Configurations;
 
 namespace NetCoreWebApi.Platform.Services
 {
