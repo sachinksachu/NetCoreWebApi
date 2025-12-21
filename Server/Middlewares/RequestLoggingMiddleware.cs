@@ -22,16 +22,23 @@
      * - Registered in Program.cs using app.UseRequestLogging().
      * - Should be placed AFTER global exception handling middleware.
      */
-    public class RequestLoggingMiddleware(RequestDelegate requestDelegate)
+    public class RequestLoggingMiddleware(RequestDelegate requestDelegate, ILogger<RequestLoggingMiddleware> logger)
     {
         private readonly RequestDelegate _next = requestDelegate;
+        private readonly ILogger<RequestLoggingMiddleware> _logger = logger;
 
         public async Task InvokeAsync(HttpContext context)
         {
-            Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+            _logger.LogInformation(
+                "Incoming Request: {Method} {Path}",
+                context.Request.Method,
+                context.Request.Path);
 
-            // Pass control to the next middleware in the pipeline
             await _next(context);
+
+            _logger.LogInformation(
+                "Response Sent: {StatusCode}",
+                context.Response.StatusCode);
         }
     }
 }
