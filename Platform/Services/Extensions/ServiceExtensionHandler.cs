@@ -1,9 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;               // <-- Needed for IServiceCollection
 using NetCoreWebApi.Platform.Services.Interfaces;             // <-- ITodoService
-using NetCoreWebApi.Platform.Services;
 
 namespace NetCoreWebApi.Platform.Services.Extensions;
-
 
 public static class ServiceExtensionHandler
 {
@@ -13,3 +11,11 @@ public static class ServiceExtensionHandler
         return services;
     }
 }
+
+/// <note>
+/// Important rules for Extension methods
+///The method must be static
+///The class must be static
+///The first parameter must use 'this'
+///The namespace must be in scope(using YourNamespace;)
+/// </note>

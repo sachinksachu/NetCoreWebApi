@@ -10,6 +10,9 @@ builder.Services.AddControllers();// enable controllers
 
 // Register services to the container
 builder.Services.AddCustomServices();
+//Compiler internally translates to:
+//ServiceExtensionHandler.AddCustomServices(builder.Services);
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,6 +31,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapControllers(); // very important
+app.UseRequestLogging();
+
+// Routing + endpoints
+app.MapControllers();
 
 app.Run();
