@@ -1,23 +1,25 @@
 using NetCoreWebApi.Platform.Services.Extensions;
+using NetCoreWebApi.Server.Extensions;
 using NetCoreWebApi.Server.Extrensions;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCustomConfigurations(builder.Configuration);
+var services = builder.Services;
 
-builder.Services.AddControllers();// enable controllers
+services.AddCustomConfigurations(builder.Configuration);
+
+services.AddControllers(); // enable controllers
 
 // Register services to the container
-builder.Services.AddCustomServices();
+services.AddCustomServices();
 //Compiler internally translates to:
-//ServiceExtensionHandler.AddCustomServices(builder.Services);
-
+//ServiceExtensionHandler.AddCustomServices(services);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+services.ConfigureSwagger();
+services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -28,12 +30,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
 
 app.UseRequestLogging();
 
+app.UseAuthenticationMiddleware();
+
 // Routing + endpoints
+//In .NET 6+, UseRouting() and UseEndpoints() are implicitly added when you use MapControllers() or Minimal APIs.
 app.MapControllers();
 
 app.Run();

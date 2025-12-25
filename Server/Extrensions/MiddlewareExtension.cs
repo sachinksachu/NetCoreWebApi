@@ -9,5 +9,11 @@ namespace NetCoreWebApi.Server.Extrensions
             // Registers RequestLoggingMiddleware into the HTTP pipeline
             return app.UseMiddleware<RequestLoggingMiddleware>();
         }
+
+        public static IApplicationBuilder UseAuthenticationMiddleware(this IApplicationBuilder app)
+        {
+            // Registers AuthenticationMiddleware into the HTTP pipeline
+            return app.UseMiddleware<AuthenticationMiddleware>();
+        }
     }
 }
