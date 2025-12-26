@@ -12,7 +12,19 @@ namespace NetCoreWebApi.Server.Middlewares
         //   A method to handle the request(InvokeAsync).
         public async Task InvokeAsync(HttpContext context)
         {
-            if(!context.Request.Headers.TryGetValue("x-api-key", out var xApiKey))
+            var endpoint = context.GetEndpoint();
+            string endpointPath = context.Request.Path;
+            Console.WriteLine($"Authentication Middleware executing for endpoint: {endpointPath}");
+
+            if(endpointPath.Equals("/api/todo", StringComparison.OrdinalIgnoreCase) &&
+               context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
+            {
+                // Skip authentication for GET /api/todo
+                await _next(context);
+                return;
+            }
+
+            if (!context.Request.Headers.TryGetValue("x-api-key", out var xApiKey))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 await context.Response.WriteAsync("API Key is missing");

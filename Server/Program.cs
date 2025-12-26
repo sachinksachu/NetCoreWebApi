@@ -1,4 +1,4 @@
-using NetCoreWebApi.Platform.Services.Extensions;
+﻿using NetCoreWebApi.Platform.Services.Extensions;
 using NetCoreWebApi.Server.Extensions;
 using NetCoreWebApi.Server.Extrensions;
 
@@ -31,6 +31,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//If middleware needs to know WHICH endpoint is being executed → UseRouting is required.
+app.UseRouting();
 
 app.UseRequestLogging();
 

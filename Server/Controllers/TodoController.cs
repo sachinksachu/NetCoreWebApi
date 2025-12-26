@@ -21,5 +21,11 @@ namespace NetCoreWebApi.Server.Controllers
 
 
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllTodos()
+        {
+            var todos = await _todoService.GetAllTodosAsync();
+            return Ok(todos);
+        }
     }
 }
