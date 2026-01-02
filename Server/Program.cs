@@ -1,10 +1,27 @@
-﻿using NetCoreWebApi.Platform.Services.Extensions;
+﻿using System.Net;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using NetCoreWebApi.Platform.Services.Extensions;
 using NetCoreWebApi.Server.Extensions;
 using NetCoreWebApi.Server.Extrensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
 var services = builder.Services;
+
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes("a-string-secret-at-least-256-bits-long"))
+        };
+    });
 
 services.AddCustomConfigurations(builder.Configuration);
 
@@ -36,6 +53,20 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseRequestLogging();
+
+//When a request arrives:
+//Finds the default authentication scheme
+//Runs the scheme’s authentication handler
+//Reads credentials (JWT, cookie, etc.)
+//Validates credentials
+//Creates a ClaimsPrincipal
+//Assigns it to: HttpContext.User
+app.UseAuthentication();
+
+//Endpoint metadata contains [Authorize]
+//Authorization middleware sees it
+//It checks:HttpContext.User.Identity.IsAuthenticated
+app.UseAuthorization();
 
 app.UseAuthenticationMiddleware();
 

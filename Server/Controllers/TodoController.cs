@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreWebApi.Platform.Models.Attributes;
 using NetCoreWebApi.Platform.Services.Interfaces;
@@ -17,8 +18,9 @@ namespace NetCoreWebApi.Server.Controllers
 
         #region Controllers
 
-        [HttpGet("{id}")]
+        [Authorize]
         [RequireApiKey] //Marker Attribute Patten example.
+        [HttpGet("{id}")]
         public IActionResult GetTodo(int id)
         {
             _todoService.GetTodoByIdAsync(id);
