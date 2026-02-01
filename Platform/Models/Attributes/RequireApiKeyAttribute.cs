@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 namespace NetCoreWebApi.Platform.Models.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]

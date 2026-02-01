@@ -2,6 +2,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using NetCoreWebApi.Platform.Models.Configurations;
 using NetCoreWebApi.Platform.Services.Extensions;
 using NetCoreWebApi.Server.Extensions;
 using NetCoreWebApi.Server.Extrensions;
@@ -9,17 +10,23 @@ using NetCoreWebApi.Server.Extrensions;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
+var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtConfig>();
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("Jwt"));
+
+
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = false,
-            ValidateAudience = false,
+            ValidAudience = jwtSettings!.Audience,
+            ValidIssuer = jwtSettings!.Issuer,
+            ValidateIssuer = true,
+            ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("a-string-secret-at-least-256-bits-long"))
+                Encoding.UTF8.GetBytes(jwtSettings!.IssuerSigningKey))
         };
     });
 

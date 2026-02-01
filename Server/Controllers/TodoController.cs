@@ -8,11 +8,12 @@ namespace NetCoreWebApi.Server.Controllers
     [ApiController] //Marker Attribute Patten example.
     [Route("api/[controller]")]
     
-    public class TodoController(ITodoService todoService) : ControllerBase
+    public class TodoController(ITodoService todoService, IUserService userService) : ControllerBase
     {
         #region Private Fields
 
         private readonly ITodoService _todoService = todoService;
+        private readonly IUserService _userService = userService;
 
         #endregion
 
@@ -37,6 +38,17 @@ namespace NetCoreWebApi.Server.Controllers
             return Ok(todos);
         }
 
+        [HttpPost]
+        public IActionResult Login()
+        {
+            var response = _userService.LoginAsync();
+            return Ok(response);
+        }
         #endregion
     }
 }
+
+///<note>
+///1. IActionResult is a core interface in ASP.NET Core that represents the outcome of a controller action.
+///2. It provides flexibility by allowing actions to return different types of results (e.g., Ok(), NotFound(), Redirect()).
+///</note>

@@ -8,6 +8,8 @@ public static class ServiceExtensionHandler
     public static IServiceCollection AddCustomServices(this IServiceCollection services)
     {
         services.AddScoped<ITodoService, TodoService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
         return services;
     }
 }
